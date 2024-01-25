@@ -1,7 +1,0 @@
-======//Lỗi//=====
-5000 = lỗi server
-4001 = trùng giá trị unique
-4002 = validation không thành công do dữ liệu không hợp lệ
-4003 = password và confirm password không khớp (register)
-======//Thành công//=====
-2001 = register thành công
