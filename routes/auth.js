@@ -4,6 +4,6 @@ import { registerHandler } from '../controllers/auth.js';
 
 const router = express.Router();
 
-router.get('/register', registerHandler);
+router.post('/register', registerHandler);
 
 export default router;
