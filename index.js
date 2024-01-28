@@ -1,10 +1,19 @@
 import 'dotenv/config';
-import app from './app.js';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+
+import app from './api/app.js';
 import connectDB from './configs/db.js';
+import socket from './socket/index.js';
 
 connectDB();
 
-app.listen(process.env.PORT, () => {
+const server = createServer(app);
+const io = new Server(server);
+
+socket(io);
+
+server.listen(process.env.PORT, () => {
   console.log(
     `Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`
   );

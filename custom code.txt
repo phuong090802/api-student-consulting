@@ -3,5 +3,24 @@
 4001 = trùng giá trị unique
 4002 = validation không thành công do dữ liệu không hợp lệ
 4003 = password và confirm password không khớp (register)
+4004 = socket - email tồn tại
+4005 = socket - số điện thoại khả dụng
+4006 = tên đăng nhập hoặc mật khẩu trống
+4007 = không tìm thấy người dùng trong DB
+4008 = sai mật khẩu
+4009 = không có token trong cookies
+4010 = token không tìm thấy trong cookies
+4011 = token đã được sử dụng
+4012 = tài khoản đã bị khóa
+4013 = Không tìm thấy tài khoản trong DB
+4014 = tài khoản đã bị khóa
+4015 = token không hợp lệ (không có token hoặc token không bắt đầu bằng Bearer)
+4016 = role của của user không được phép truy cập vào tài nguyên
+4017 = xác thực không thành công (chữ ký token không khớp)
+4018 = xác thực không thành công (token hết hạn)
 ======//Thành công//=====
 2001 = register thành công
+2002 = socket - email khả dụng
+2003 = socket - số điện thoại khả dụng
+2004 = đăng xuất thành công
+2005 = lấy thông tin bản thân thành công

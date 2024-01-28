@@ -1,8 +1,12 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { nanoid } from 'nanoid';
 
 import ErrorHandler from '../utils/ErrorHandler.js';
+import RefreshToken from './refreshToken.js';
+import Counsellor from './counsellor.js';
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -62,6 +66,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
+    uppercase: true,
     default: 'USER',
     enum: {
       values: ['USER', 'COUNSELLOR', 'DEPARTMENT_HEAD', 'SUPERVISOR', 'ADMIN'],
@@ -91,24 +96,46 @@ const userSchema = new mongoose.Schema({
       type: Date,
     },
   },
-  department: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department',
-  },
-  fields: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Department',
-    },
-  ],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-userSchema.methods.validatePasswordConfirmation = function (confirmPassword) {
-  return validator.equals(this.password, confirmPassword);
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.methods.generateAuthToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRATION_TIME_IN_SECONDS,
+  });
+};
+
+userSchema.methods.generateRefreshToken = async function () {
+  const refreshToken = new RefreshToken({
+    branch: nanoid(),
+    owner: this._id,
+  });
+  return await refreshToken.save();
+};
+
+userSchema.methods.getUserInfo = async function () {
+  const counsellor = await Counsellor.findOne({ user: this._id }).populate(
+    'department',
+    'departmentName'
+  );
+
+  return {
+    _id: this._id,
+    fullName: this.fullName,
+    email: this.email,
+    phoneNumber: this.phoneNumber,
+    avatar: this.avatar.url || null,
+    role: this.role,
+    occupation: this.occupation,
+    departmentName: counsellor ? counsellor.department.departmentName : null,
+  };
 };
 
 userSchema.pre('save', async function (next) {
