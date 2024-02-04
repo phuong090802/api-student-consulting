@@ -74,30 +74,30 @@ export const loginHandler = catchAsyncErrors(async (req, res, next) => {
   sendToken(res, token, refreshToken, userInfo);
 });
 
-export const refreshTokenHandler = catchAsyncErrors(async (req, res, next) => {
+export const refreshHandler = catchAsyncErrors(async (req, res, next) => {
   // string
-  const { refreshToken } = req.cookies;
+  const token = req.cookies.refreshToken;
 
-  if (!refreshToken) {
+  if (!token) {
     return next(new ErrorHandler(400, 'Yêu cầu không hợp lệ', 4009));
   }
 
   // object
-  const token = await RefreshToken.findOne({ token: refreshToken });
+  const refreshToken = await RefreshToken.findOne({ token });
 
-  if (!token) {
+  if (!refreshToken) {
     clearToken(res);
     return next(new ErrorHandler(400, 'Yêu cầu không hợp lệ', 4010));
   }
 
-  if (!token.status) {
+  if (!refreshToken.status) {
     // delete all token in branch
-    await RefreshToken.deleteMany({ branch: token.branch });
+    await RefreshToken.deleteMany({ branch: refreshToken.branch });
     clearToken(res);
     return next(new ErrorHandler(400, 'Yêu cầu không hợp lệ', 4011));
   }
 
-  const user = await User.findById(token.owner);
+  const user = await User.findById(refreshToken.owner);
 
   if (!user) {
     return next(new ErrorHandler(401, 'Không tìm thấy tài khoản', 4013));
@@ -108,19 +108,19 @@ export const refreshTokenHandler = catchAsyncErrors(async (req, res, next) => {
   }
 
   const newToken = user.generateAuthToken();
-  const newRefreshToken = await token.generateRefreshToken();
+  const newRefreshToken = await refreshToken.generateRefreshToken();
   const userInfo = await user.getUserInfo();
   sendToken(res, newToken, newRefreshToken, userInfo);
 });
 
 export const logoutHandler = catchAsyncErrors(async (req, res, next) => {
   // string
-  const { refreshToken } = req.cookies;
+  const token = req.cookies.refreshToken;
 
   // object
-  const token = await RefreshToken.findOne({ token: refreshToken });
+  const refreshToken = await RefreshToken.findOne({ token });
 
-  await RefreshToken.deleteMany({ branch: token.branch });
+  await RefreshToken.deleteMany({ branch: refreshToken.branch });
 
   clearToken(res);
 
@@ -131,7 +131,7 @@ export const logoutHandler = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export const userInfoHandler = catchAsyncErrors(async (req, res, next) => {
+export const meHandler = catchAsyncErrors(async (req, res, next) => {
   const user = await req.user.getUserInfo();
   res.json({
     success: true,

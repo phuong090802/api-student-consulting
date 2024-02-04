@@ -18,6 +18,7 @@
 4016 = role của của user không được phép truy cập vào tài nguyên
 4017 = xác thực không thành công (chữ ký token không khớp)
 4018 = xác thực không thành công (token hết hạn)
+4019 = yêu cầu bị chặn bởi cors
 ======//Thành công//=====
 2001 = register thành công
 2002 = socket - email khả dụng
