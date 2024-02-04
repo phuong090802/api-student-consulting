@@ -1,16 +1,15 @@
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
 
+import corsOptions from '../configs/cors.js';
+import errorHandler from './middlewares/errorHandler.js';
 import auth from './routes/auth.js';
 import test from './routes/test.js';
-import errorHandler from './middlewares/errorHandler.js';
-import corsOptions from '../configs/cors.js';
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(corsOptions);
 
 // for DEV mode
 

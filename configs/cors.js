@@ -1,3 +1,4 @@
+import cors from 'cors';
 
 
 const corsOptions = {
@@ -7,4 +8,4 @@ const corsOptions = {
   credentials: true,
 };
 
-export default corsOptions;
+export default cors(corsOptions);
