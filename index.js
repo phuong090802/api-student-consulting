@@ -10,7 +10,15 @@ import corsOptions from './configs/cors.js';
 connectDB();
 
 const server = createServer(app);
-const io = new Server(server, { cors: corsOptions, allowEIO3: true });
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST'],
+    transports: ['websocket', 'polling'],
+    credentials: true,
+  },
+  allowEIO3: true,
+});
 
 socket(io);
 
