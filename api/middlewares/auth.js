@@ -38,5 +38,8 @@ export const authorizeRoles = (...roles) => {
   };
 };
 
-  const authHandler = (...roles) => [isAuthenticatedUser, authorizeRoles(...roles)];
+const authHandler = (...roles) => [
+  isAuthenticatedUser,
+  authorizeRoles(...roles),
+];
 export default authHandler;
