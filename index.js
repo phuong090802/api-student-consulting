@@ -9,9 +9,10 @@ import corsOptions from './configs/cors.js';
 
 connectDB();
 
-
 const server = createServer(app);
-const io = new Server(server, { cors: corsOptions });
+const io = new Server(server, {
+  cors: { ...corsOptions, transports: ['websocket', 'polling'] },
+});
 
 socket(io);
 
