@@ -16,10 +16,6 @@ router.post('/login', loginHandler);
 router.post('/refresh', refreshHandler);
 router.post('/logout', logoutHandler);
 
-// outsourcing to const authAllRole = [isAuthenticatedUser, authorizeRoles('USER', 'COUNSELLOR', 'DEPARTMENT_HEAD', 'SUPERVISOR', 'ADMIN')]
-// then router.use(authAllRole)
-// router.use(authHandler('USER', 'COUNSELLOR', 'DEPARTMENT_HEAD', 'SUPERVISOR', 'ADMIN'));
-// router.use(isAuthenticatedUser);
-router.get('/me', meHandler);
+router.get('/me', isAuthenticatedUser, meHandler);
 
 export default router;
