@@ -17,6 +17,8 @@ const io = new Server(server, {
     credentials: true,
   },
   transports: ['websocket', 'polling'],
+  allowUpgrades: true,
+  allowEIO3: true,
 });
 
 socket(io);
