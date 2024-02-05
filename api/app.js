@@ -6,11 +6,11 @@ import cors from 'cors';
 import auth from './routes/auth.js';
 import test from './routes/test.js';
 import errorHandler from './middlewares/errorHandler.js';
-import corsOptions from '../configs/cors.js';
+import { apiCorsOptions } from '../configs/cors.js';
 
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors(apiCorsOptions));
 
 // for DEV mode
 
