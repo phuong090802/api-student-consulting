@@ -116,21 +116,16 @@ export const refreshTokenHandler = catchAsyncErrors(async (req, res, next) => {
 export const logoutHandler = catchAsyncErrors(async (req, res, next) => {
   // string
   const token = req.cookies.refreshToken;
-  const code = 2004;
+  // object
+  const refreshToken = await RefreshToken.findOne({ token });
 
-  if (token) {
-    // object
-    const refreshToken = await RefreshToken.findOne({ token });
-
-    await RefreshToken.deleteMany({ branch: refreshToken.branch });
-    clearToken(res);
-    code = 2006;
-  }
+  await RefreshToken.deleteMany({ branch: refreshToken.branch });
+  clearToken(res);
 
   res.json({
     success: true,
     message: 'Đăng xuất thành công',
-    code,
+    code: 2004,
   });
 });
 

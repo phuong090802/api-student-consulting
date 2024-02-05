@@ -23,6 +23,8 @@
 2001 = register thành công
 2002 = socket - email khả dụng
 2003 = socket - số điện thoại khả dụng
-2004 = đăng xuất thành công (có token)
+2004 = đăng xuất thành công
 2005 = lấy thông tin bản thân thành công
-2006 = đăng xuất thành công (không có token)
+
+
+//2006 = đăng xuất thành công (không có token)
